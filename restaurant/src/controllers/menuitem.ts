@@ -46,20 +46,20 @@ export const addMenuItem = TryCatch(async (req: AuthenticatedRequest, res) => {
 
   // upload service gets up
   
-  // const { data: uploadResult } = await axios.post(
-  //   `${process.env.UTILS_SERVICE}/api/upload`,
-  //   {
-  //     buffer: fileBuffer.content,
-  //   }
-  // );
+  const { data: uploadResult } = await axios.post(
+    `${process.env.UTILS_SERVICE}/api/upload`,
+    {
+      buffer: fileBuffer.content,
+    }
+  );
 
   const item = await MenuItems.create({
     name,
     description,
     price,
     restaurantId: restaurant._id,
-    // image: uploadResult.url,
-    image:"dfgddf"
+    image: uploadResult.url,
+    // image:"dfgddf"
   });
 
   res.json({

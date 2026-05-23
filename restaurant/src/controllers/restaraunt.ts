@@ -50,19 +50,19 @@ export const addRestraunt = TryCatch(async (req: AuthenticatedRequest, res) => {
 
   // wait till upload service is online
 
-  // const { data: uploadResult } = await axios.post(
-  //   `${process.env.UTILS_SERVICE}/api/upload`,
-  //   {
-  //     buffer: fileBuffer.content,
-  //   }
-  // );
+  const { data: uploadResult } = await axios.post(
+    `${process.env.UTILS_SERVICE}/api/upload`,
+    {
+      buffer: fileBuffer.content,
+    }
+  );
 
   const restaurant = await Restaurant.create({
     name,
     description,
     phone,
-    // image: uploadResult.url,
-    image:"sfdsdf",
+    image: uploadResult.url,
+    // image:"sfdsdf",
     ownerId: user._id,
     autoLocation: {
       type: "Point",
