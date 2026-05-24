@@ -7,12 +7,12 @@ import { AppProvider } from "./context/AppContext.tsx";
 import "leaflet/dist/leaflet.css";
 import { SocketProvider } from "./context/SocketContext.tsx";
 
-export const authService = "http://localhost:5000";
-export const restaurantService = "http://localhost:5001";
-export const utilsService = "http://localhost:5002";
-export const realtimeService = "http://localhost:5004";
-export const riderService = "http://localhost:5005";
-export const adminService = "http://localhost:5006";
+export const authService = "http://food.dev";
+export const restaurantService = "http://food.dev";
+export const utilsService = "http://food.dev";
+export const realtimeService = "http://food.dev";
+export const riderService = "http://food.dev";
+export const adminService = "http://food.dev";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
