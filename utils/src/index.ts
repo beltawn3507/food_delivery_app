@@ -12,11 +12,10 @@ connectRabbitMQ();
 
 const app = express();
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "http://food.dev",
-  "https://food.dev",
-];
+const allowedOrigins = (
+  process.env.ALLOWED_ORIGINS ??
+  "http://localhost:5173"
+).split(",");
 
 app.use(
   cors({
