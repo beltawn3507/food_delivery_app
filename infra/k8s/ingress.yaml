@@ -1,101 +1,107 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
+
 metadata:
   name: food-delivery-backend
   namespace: food
-  annotations:
-    nginx.ingress.kubernetes.io/use-regex: "true"
 
 spec:
-  ingressClassName: nginx
-
   rules:
     - host: food.dev
+
       http:
         paths:
 
-          - path: /api/auth/?(.*)
-            pathType: ImplementationSpecific
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: client-srv
+                port:
+                  number: 80
+
+          - path: /api/auth
+            pathType: Prefix
             backend:
               service:
                 name: auth-srv
                 port:
                   number: 5000
 
-          - path: /api/restaurant/?(.*)
-            pathType: ImplementationSpecific
+          - path: /api/restaurant
+            pathType: Prefix
             backend:
               service:
                 name: rest-srv
                 port:
                   number: 5001
 
-          - path: /api/item/?(.*)
-            pathType: ImplementationSpecific
+          - path: /api/item
+            pathType: Prefix
             backend:
               service:
                 name: rest-srv
                 port:
                   number: 5001
 
-          - path: /api/cart/?(.*)
-            pathType: ImplementationSpecific
+          - path: /api/cart
+            pathType: Prefix
             backend:
               service:
                 name: rest-srv
                 port:
                   number: 5001
 
-          - path: /api/address/?(.*)
-            pathType: ImplementationSpecific
+          - path: /api/address
+            pathType: Prefix
             backend:
               service:
                 name: rest-srv
                 port:
                   number: 5001
 
-          - path: /api/order/?(.*)
-            pathType: ImplementationSpecific
+          - path: /api/order
+            pathType: Prefix
             backend:
               service:
                 name: rest-srv
                 port:
                   number: 5001
 
-          - path: /api/rider/?(.*)
-            pathType: ImplementationSpecific
+          - path: /api/rider
+            pathType: Prefix
             backend:
               service:
                 name: rider-srv
                 port:
                   number: 5005
 
-          - path: /api/payment/?(.*)
-            pathType: ImplementationSpecific
+          - path: /api/payment
+            pathType: Prefix
             backend:
               service:
                 name: payment-srv
                 port:
                   number: 5002
 
-          - path: /api/upload/?(.*)
-            pathType: ImplementationSpecific
+          - path: /api/upload
+            pathType: Prefix
             backend:
               service:
                 name: payment-srv
                 port:
                   number: 5002
 
-          - path: /api/v1/internal/?(.*)
-            pathType: ImplementationSpecific
+          - path: /api/v1/internal
+            pathType: Prefix
             backend:
               service:
                 name: realtime-srv
                 port:
                   number: 5004
 
-          - path: /socket.io/?(.*)
-            pathType: ImplementationSpecific
+          - path: /socket.io
+            pathType: Prefix
             backend:
               service:
                 name: realtime-srv
