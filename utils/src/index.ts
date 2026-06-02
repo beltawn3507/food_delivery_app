@@ -5,6 +5,8 @@ import cors from "cors";
 import uploadRoutes from "./routes/cloudinary.js";
 import paymentRoutes from "./routes/payment.js";
 import { connectRabbitMQ } from "./config/rabbitmq.js";
+import { metricsMiddleware } from "./middleware/metricmid.js";
+import { register } from "./config/metric.js";
 
 dotenv.config();
 
@@ -27,6 +29,14 @@ cloudinary.v2.config({
   cloud_name: CLOUD_NAME,
   api_key: CLOUD_API_KEY,
   api_secret: CLOUD_SECRET_KEY,
+});
+
+app.use(metricsMiddleware);
+
+app.get("/metrics", async (_, res) => {
+  res.set("Content-Type", register.contentType);
+
+  res.end(await register.metrics());
 });
 
 app.use("/api", uploadRoutes);

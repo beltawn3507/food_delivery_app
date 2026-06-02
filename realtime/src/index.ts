@@ -4,6 +4,8 @@ import cors from "cors";
 import http from "http";
 import { initSocket } from "./socket.js";
 import internalRoute from "./routes/internal.js";
+import { metricsMiddleware } from "./middleware/metricmid.js";
+import { register } from "./config/metric.js";
 
 dotenv.config();
 
@@ -12,6 +14,13 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use(metricsMiddleware);
+
+app.get("/metrics", async (_, res) => {
+  res.set("Content-Type", register.contentType);
+
+  res.end(await register.metrics());
+});
 app.use("/api/v1/internal", internalRoute);
 
 const server = http.createServer(app);

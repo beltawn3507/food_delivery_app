@@ -9,6 +9,8 @@ import orderRoutes from "./routes/order.js";
 import cors from "cors";
 import { connectRabbitMQ } from "./config/rabbitmq.js";
 import { startPaymentConsumer } from "./config/payment.consumer.js";
+import { register } from "./config/metric.js";
+import { metricsMiddleware } from "./middlewares/metricmid.js";
 
 dotenv.config();
 
@@ -20,8 +22,16 @@ const app = express();
 app.use(cors());
 
 app.use(express.json());
+app.use(metricsMiddleware)
 
 const PORT = process.env.PORT || 5001;
+
+
+app.get("/metrics", async (_, res) => {
+  res.set("Content-Type", register.contentType);
+
+  res.end(await register.metrics());
+});
 
 app.use("/api/restaurant", restaurantRoutes);
 app.use("/api/item", itemRoutes);
