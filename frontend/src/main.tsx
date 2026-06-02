@@ -1,22 +1,29 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import "./index.css";
-import App from "./App.tsx";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+
+import App from "./App.tsx";
+
 import { AppProvider } from "./context/AppContext.tsx";
-import "leaflet/dist/leaflet.css";
 import { SocketProvider } from "./context/SocketContext.tsx";
 
-export const authService = "http://localhost:5000";
-export const restaurantService = "http://localhost:5001";
-export const utilsService = "http://localhost:5002";
-export const realtimeService = "http://localhost:5004";
-export const riderService = "http://localhost:5005";
-export const adminService = "http://localhost:5006";
+import "./index.css";
+import "leaflet/dist/leaflet.css";
+
+// Service Base URLs
+
+export const authService = "";
+export const restaurantService = "";
+export const utilsService = "";
+export const realtimeService = "";
+export const riderService = "";
+export const adminService = "";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+    <GoogleOAuthProvider
+      clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}
+    >
       <AppProvider>
         <SocketProvider>
           <App />
