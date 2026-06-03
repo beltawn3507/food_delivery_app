@@ -57,6 +57,6 @@ app.get("/metrics", async (_, res) => {
 app.use("/api/rider", riderRoutes);
 
 app.listen(process.env.PORT, () => {
-  console.log(`Rider service is running on port ${process.env.PORT}!`);
+  console.log(`Rider service is running on port ${process.env.PORT}!!`);
   connectDB();
 });
