@@ -39,7 +39,7 @@ const AddMenuItem = ({ onItemAdded }: { onItemAdded: () => void }) => {
         },
       });
 
-      toast.success("Item added successfully");
+      toast.success("Item added successfully!");
       resetForm();
       onItemAdded();
     } catch (error) {
