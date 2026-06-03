@@ -36,7 +36,7 @@ jobs:
       - name: Build and push payment image
         uses: docker/build-push-action@v5
         with:
-          context: payment
+          context: utils
           file: utils/Dockerfile
           push: true
           tags: |
