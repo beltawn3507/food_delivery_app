@@ -69,4 +69,5 @@ jobs:
 
           git add kustomization.yaml
           git commit -m "rest: update image tag to ${IMAGE_TAG}"
+          git pull --rebase origin main
           git push origin main

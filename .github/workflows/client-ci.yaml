@@ -39,6 +39,10 @@ jobs:
           context: frontend
           file: frontend/Dockerfile
           push: true
+          build-args: |
+            VITE_GOOGLE_CLIENT_ID=${{ secrets.VITE_GOOGLE_CLIENT_ID }}
+            VITE_STRIPE_PUBLISHABLE_KEY=${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}
+            VITE_INTERNAL_SERVICE_KEY=${{secrets.VITE_INTERNAL_SERVICE_KEY}}
           tags: |
             ghcr.io/${{github.repository_owner}}/food_client:${{github.sha}}
       
@@ -67,7 +71,8 @@ jobs:
           fi
 
           git add kustomization.yaml
-          git commit -m "client: update image tag to ${IMAGE_TAG}"
+          git commit -m "rest: update image tag to ${IMAGE_TAG}"
+          git pull --rebase origin main
           git push origin main
 
 
