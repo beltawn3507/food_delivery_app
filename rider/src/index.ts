@@ -7,11 +7,14 @@ import { connectRabbitMQ } from "./config/rabbitmq.js";
 import { startOrderReadyConsumer } from "./config/orderReady.consumer.js";
 import { metricsMiddleware } from "./middlewares/metricmid.js";
 import { register } from "./config/metric.js";
+import { configureCloudinary } from "@beltawn3507/common";
 
 dotenv.config();
 
 await connectRabbitMQ();
 startOrderReadyConsumer();
+
+configureCloudinary();
 
 const app = express();
 app.use(express.json());

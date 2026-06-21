@@ -17,15 +17,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const cloudinary_1 = __importDefault(require("cloudinary"));
+exports.configureCloudinary = void 0;
 __exportStar(require("./middleware/cloudinary"), exports);
 __exportStar(require("./middleware/isAuth"), exports);
-const { CLOUD_NAME, CLOUD_API_KEY, CLOUD_SECRET_KEY } = process.env;
-if (!CLOUD_NAME || !CLOUD_API_KEY || !CLOUD_SECRET_KEY) {
-    throw new Error("Missing Cloudinary environment variables");
-}
-cloudinary_1.default.v2.config({
-    cloud_name: CLOUD_NAME,
-    api_key: CLOUD_API_KEY,
-    api_secret: CLOUD_SECRET_KEY,
-});
+// middleware/cloudinary.ts
+const cloudinary_1 = __importDefault(require("cloudinary"));
+const configureCloudinary = () => {
+    const { CLOUD_NAME, CLOUD_API_KEY, CLOUD_SECRET_KEY } = process.env;
+    if (!CLOUD_NAME || !CLOUD_API_KEY || !CLOUD_SECRET_KEY) {
+        throw new Error("Missing Cloudinary environment variables");
+    }
+    cloudinary_1.default.v2.config({
+        cloud_name: CLOUD_NAME,
+        api_key: CLOUD_API_KEY,
+        api_secret: CLOUD_SECRET_KEY,
+    });
+};
+exports.configureCloudinary = configureCloudinary;

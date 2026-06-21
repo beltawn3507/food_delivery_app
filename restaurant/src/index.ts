@@ -11,11 +11,14 @@ import { connectRabbitMQ } from "./config/rabbitmq.js";
 import { startPaymentConsumer } from "./config/payment.consumer.js";
 import { register } from "./config/metric.js";
 import { metricsMiddleware } from "./middlewares/metricmid.js";
+import { configureCloudinary } from "@beltawn3507/common";
 
 dotenv.config();
 
 await connectRabbitMQ();
 startPaymentConsumer();
+
+configureCloudinary();
 
 const app = express();
 
