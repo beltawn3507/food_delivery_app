@@ -1,6 +1,6 @@
 {
   "name": "@beltawn3507/common",
-  "version": "1.0.25",
+  "version": "1.0.26",
   "description": "",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -32,6 +32,6 @@
     "jsonwebtoken": "^9.0.2"
   },
   "peerDependencies": {
-    "express": "^4.17.1"
+    "express": ">=4.17.1"
   }
 }
