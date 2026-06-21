@@ -1,7 +1,7 @@
 import axios from "axios";
 import getBuffer from "../config/datauri.js";
 // import { AuthenticatedRequest } from "../middlewares/isAuth.js";
-import { AuthenticatedRequest } from "@beltawn3507/common";
+import { AuthenticatedRequest, uploadImage } from "@beltawn3507/common";
 import TryCatch from "../middlewares/trycatch.js";
 import Restaurant from "../models/Restaurant.js";
 import MenuItems from "../models/MenuItems.js";
@@ -37,22 +37,29 @@ export const addMenuItem = TryCatch(async (req: AuthenticatedRequest, res) => {
     });
   }
 
-  const fileBuffer = getBuffer(file);
+  // const fileBuffer = getBuffer(file);
 
-  if (!fileBuffer?.content) {
-    return res.status(500).json({
-      message: "Failed to create file buffer",
-    });
-  }
+  // if (!fileBuffer?.content) {
+  //   return res.status(500).json({
+  //     message: "Failed to create file buffer",
+  //   });
+  // }
 
-  // upload service gets up
+  // // upload service gets up
   
-  const { data: uploadResult } = await axios.post(
-    `${process.env.UTILS_SERVICE}/api/upload`,
-    {
-      buffer: fileBuffer.content,
-    }
-  );
+  // const { data: uploadResult } = await axios.post(
+  //   `${process.env.UTILS_SERVICE}/api/upload`,
+  //   {
+  //     buffer: fileBuffer.content,
+  //   }
+  // );
+
+  const uploadResult = await uploadImage(file)
+  
+  if(!uploadResult){
+     console.log("No Data came back from cloudinary")
+     return
+  }
 
   const item = await MenuItems.create({
     name,
@@ -60,7 +67,6 @@ export const addMenuItem = TryCatch(async (req: AuthenticatedRequest, res) => {
     price,
     restaurantId: restaurant._id,
     image: uploadResult.url,
-    // image:"dfgddf"
   });
 
   res.json({
