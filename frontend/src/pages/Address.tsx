@@ -22,6 +22,7 @@ L.Icon.Default.mergeOptions({
 
   shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
 });
+
 interface Address {
   _id: string;
   formattedAddress: string;
@@ -58,7 +59,7 @@ const LocateMeButton = ({
         map.flyTo([latitude, longitude], 16, { animate: true });
         onLocate(latitude, longitude);
       },
-      () => toast.error("Location permission denied")
+      () => toast.error("Location permission denied"),
     );
   };
   return (
@@ -72,6 +73,7 @@ rounded-lg bg-white px-3 py-2 text-sm shadow hover:bg-gray-100"
     </button>
   );
 };
+
 const AddAddressPage = () => {
   const [addresses, setAddresses] = useState<Address[]>([]);
 
@@ -87,7 +89,7 @@ const AddAddressPage = () => {
   const fetchFormattedAddress = async (lat: number, lng: number) => {
     try {
       const res = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`,
       );
       const data = await res.json();
       setFormattedAddress(data.display_name || "");
@@ -143,7 +145,7 @@ const AddAddressPage = () => {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
+        },
       );
       toast.success("Address added");
       setMobile("");
@@ -243,8 +245,7 @@ border bg-white p-3"
             >
               <div>
                 <p
-                  className="text-sm font-
-medium"
+                  className="text-sm font-medium"
                 >
                   {addr.formattedAddress}
                 </p>

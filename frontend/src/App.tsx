@@ -40,6 +40,7 @@ const App = () => {
   if (user && user.role === "admin") {
     return <Admin />;
   }
+
   return (
     <>
       <BrowserRouter>

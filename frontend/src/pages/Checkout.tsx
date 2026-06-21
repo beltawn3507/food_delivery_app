@@ -29,6 +29,7 @@ const Checkout = () => {
   const [loadingStripe, setLoadingStripe] = useState(false);
   const [creatingOrder, setCreatingOrder] = useState(false);
 
+  // fetch all the list of the addresses
   useEffect(() => {
     const fetchAddresses = async () => {
       if (!cart || cart.length === 0) {

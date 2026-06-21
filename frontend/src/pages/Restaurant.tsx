@@ -14,7 +14,8 @@ const Restaurant = () => {
   const [restaurant, setRestaurant] = useState<IRestaurant | null>(null);
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState<SellerTab>("menu");
-
+  
+  // fetch my restaurant data from backend using token
   const fetchMyRestaurant = async () => {
     try {
       const { data } = await axios.get(
@@ -39,12 +40,13 @@ const Restaurant = () => {
     }
   };
 
+  // if we come to this page it will reload
   useEffect(() => {
     fetchMyRestaurant();
   }, []);
 
   const [menuItems, setMenuItems] = useState<IMenuItem[]>([]);
-
+  // fetch my menu items from the backend 
   const fetchMenuItems = async (restaurantId: string) => {
     try {
       const { data } = await axios.get(
@@ -61,7 +63,7 @@ const Restaurant = () => {
       console.log(error);
     }
   };
-
+  // whenever the restaurant gets updated fetch the menu
   useEffect(() => {
     if (restaurant?._id) {
       fetchMenuItems(restaurant._id);
@@ -74,7 +76,8 @@ const Restaurant = () => {
         <p className="text-gray-500">Loading your restaurant...</p>
       </div>
     );
-
+  
+  // if no info of restaurant present in the backend we can add restaurant of our own
   if (!restaurant) {
     return <AddRestaurant fetchMyRestaurant={fetchMyRestaurant} />;
   }

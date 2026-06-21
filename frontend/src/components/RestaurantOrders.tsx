@@ -70,6 +70,8 @@ const RestaurantOrders = ({ restaurantId }: { restaurantId: string }) => {
   useEffect(() => {
     if (!socket) return;
 
+    // if sockets receives new order we will first first play the audio if unlocked and then we will simply
+    // refetch the orders list again
     const onNewOrder = () => {
       console.log("New Order recived socket");
 

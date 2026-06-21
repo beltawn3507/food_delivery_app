@@ -64,7 +64,8 @@ const RestaurantProfile = ({ restaurant, isSeller, onUpdate }: props) => {
   };
 
   const { setIsAuth, setUser } = useAppData();
-
+  // this will log us out 
+  // blank the token in localstorage and set all context user and isauth to null 
   const logoutHandler = async () => {
     await axios.put(
       `${restaurantService}/api/restaurant/status`,
@@ -80,6 +81,7 @@ const RestaurantProfile = ({ restaurant, isSeller, onUpdate }: props) => {
     setUser(null);
     toast.success("loggedOut successfully");
   };
+
   return (
     <div className="mx-auto max-w-xl rounded-xl bg-white shadow-sm overflow-hidden">
       {restaurant.image && (

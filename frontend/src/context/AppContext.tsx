@@ -25,6 +25,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   const [loadingLocation, setLoadingLocation] = useState(false);
   const [city, setCity] = useState("Fecthing Location...");
 
+  // we fetch the data of user in initial render
   async function fetchUser() {
     try {
       const token = localStorage.getItem("token");
@@ -65,16 +66,19 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     }
   }
 
+  // use effect for fetch user in intial render
   useEffect(() => {
     fetchUser();
   }, []);
-
+  
+  // if user is present and its role is customer fetch the cart of the user
   useEffect(() => {
     if (user && user.role === "customer") {
       fetchCart();
     }
   }, [user]);
 
+  // this use effect is used to get the geolocation of the user
   useEffect(() => {
     if (!navigator.geolocation)
       return alert("Please Allow Location to continue");
@@ -87,12 +91,12 @@ export const AppProvider = ({ children }: AppProviderProps) => {
         const res = await fetch(
           `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
         );
-        const data = await res.json();
+        const data = await res.json(); //convert the data to json
 
         setLocation({
           latitude,
           longitude,
-          formattedAddress: data.display_name || "current location",
+          formattedAddress: data.display_name || "current location", //store the name of the place 
         });
 
         setCity(

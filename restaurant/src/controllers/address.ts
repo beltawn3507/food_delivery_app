@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
-import { AuthenticatedRequest } from "../middlewares/isAuth.js";
+// import { AuthenticatedRequest } from "../middlewares/isAuth.js";
+import { AuthenticatedRequest } from "@beltawn3507/common";
 import TryCatch from "../middlewares/trycatch.js";
 import Address from "../models/Address.js";
 

@@ -1,5 +1,6 @@
 import express from "express";
-import { isAuth, isSeller } from "../middlewares/isAuth.js";
+// import { isAuth, isSeller } from "../middlewares/isAuth.js";
+import {isAuth,isSeller} from "@beltawn3507/common"
 import {
   addRestraunt,
   fetchMyRestaurant,

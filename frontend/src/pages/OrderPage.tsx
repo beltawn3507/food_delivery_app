@@ -13,7 +13,7 @@ const OrderPage = () => {
   const [order, setOrder] = useState<IOrder | null>(null);
 
   const [loading, setLoading] = useState(true);
-
+  
   const fetchOrder = async () => {
     try {
       const { data } = await axios.get(`${restaurantService}/api/order/${id}`, {

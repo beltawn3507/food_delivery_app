@@ -20,6 +20,7 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
 
   const socketRef = useRef<Socket | null>(null);
 
+  // if the is auth changes then we will either disconnect or connect to the socket 
   useEffect(() => {
     if (!isAuth) {
       socketRef.current?.disconnect();
@@ -28,7 +29,7 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
     }
 
     if (socketRef.current) return;
-
+    // connect the socket from client to realtime service
     const socket = io(realtimeService, {
       auth: {
         token: localStorage.getItem("token"),

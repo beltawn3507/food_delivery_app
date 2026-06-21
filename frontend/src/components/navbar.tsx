@@ -12,7 +12,9 @@ const Navbar = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [search, setSearch] = useState(searchParams.get("search") || "");
-
+  
+  // checks wether the user has typed in something in search bar or not and based on the info it will 
+  // update search parameters
   useEffect(() => {
     const timer = setTimeout(() => {
       if (search) {
@@ -24,6 +26,8 @@ const Navbar = () => {
 
     return () => clearTimeout(timer);
   }, [search]);
+
+
   return (
     <div className="w-full bg-white shadow-sm">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
@@ -31,7 +35,7 @@ const Navbar = () => {
           to={"/"}
           className="text-2xl font-bold text-[#E23744] cursor-pointer"
         >
-          Tomato
+          Food-App
         </Link>
 
         <div className="flex items-center gap-4">

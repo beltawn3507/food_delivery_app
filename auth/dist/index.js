@@ -36,6 +36,6 @@ app.get("/metrics", async (_, res) => {
 app.use("/api/auth", authRoute);
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log(`Auth Service is running on port ${PORT}`);
+    console.log(`Auth Service is running on port ${PORT}!`);
     connectDB();
 });

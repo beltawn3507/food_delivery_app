@@ -1,6 +1,7 @@
 import axios from "axios";
 import getBuffer from "../config/datauri.js";
-import { AuthenticatedRequest } from "../middlewares/isAuth.js";
+// import { AuthenticatedRequest } from "../middlewares/isAuth.js";
+import { AuthenticatedRequest } from "@beltawn3507/common";
 import TryCatch from "../middlewares/trycatch.js";
 import Restaurant from "../models/Restaurant.js";
 import jwt from "jsonwebtoken";

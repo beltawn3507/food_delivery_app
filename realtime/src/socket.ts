@@ -10,7 +10,7 @@ export const initSocket = (server: http.Server) => {
       origin: "*",
     },
   });
-
+  // middleware to check wether the socket connection coming from the client is authenticated or not
   io.use((socket, next) => {
     try {
       const token = socket.handshake.auth?.token;

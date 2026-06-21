@@ -112,7 +112,7 @@ const RiderOrderMap = ({ order }: Props) => {
     };
 
     fetchLocation();
-    const interval = setInterval(fetchLocation, 10000);
+    const interval = setInterval(fetchLocation, 7000);
 
     return () => clearInterval(interval);
   }, [order.userId]);

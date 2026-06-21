@@ -1,5 +1,6 @@
 import type React from "react";
 
+// it consists of all data of user
 export interface User {
   _id: string;
   name: string;

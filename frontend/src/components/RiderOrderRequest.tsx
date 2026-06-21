@@ -10,7 +10,7 @@ interface Props {
 
 const RiderOrderRequest = ({ orderId, onAccepted }: Props) => {
   const [accepting, setAccepting] = useState(false);
-  const [secondsLeft, setSecondsLeft] = useState(10);
+  const [secondsLeft, setSecondsLeft] = useState(20);
 
   useEffect(() => {
     const interval = setInterval(() => {

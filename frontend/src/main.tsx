@@ -11,16 +11,16 @@ import "./index.css";
 import "leaflet/dist/leaflet.css";
 
 // Service Base URLs
-
-export const authService = "";
-export const restaurantService = "";
-export const utilsService = "";
-export const realtimeService = "";
-export const riderService = "";
-export const adminService = "";
+export const authService = "https://food-dev.duckdns.org";
+export const restaurantService = "https://food-dev.duckdns.org";
+export const utilsService = "https://food-dev.duckdns.org";
+export const realtimeService = "https://food-dev.duckdns.org";
+export const riderService = "https://food-dev.duckdns.org";
+export const adminService = "https://food-dev.duckdns.org";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
+    {/* use google auth provider for the auth client */}
     <GoogleOAuthProvider
       clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}
     >
