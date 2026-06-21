@@ -1,6 +1,6 @@
 {
   "name": "@beltawnfood/common",
-  "version": "1.0.23",
+  "version": "1.0.24",
   "description": "",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -10,7 +10,7 @@
   "scripts": {
     "clean": "rimraf ./build",
     "build": "npm run clean && tsc",
-    "pub": "git add . && git commit -m \"Update\" && npm version patch && npm run build && npm publish"
+    "pub": "git add . && git commit -m \"Update\" && npm version patch && npm run build && npm publish --access public"
   },
   "keywords": [],
   "author": "",
