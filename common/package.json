@@ -1,6 +1,6 @@
 {
-  "name": "@beltawnfood/common",
-  "version": "1.0.24",
+  "name": "@beltawn3507/common",
+  "version": "1.0.25",
   "description": "",
   "main": "build/index.js",
   "types": "build/index.d.ts",
