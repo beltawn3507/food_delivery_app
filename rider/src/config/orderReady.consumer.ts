@@ -57,7 +57,7 @@ export const startOrderReadyConsumer = async () => {
           //   {
           //     event: "order:available",
           //     room: `user:${rider.userId}`,
-          //     payload: { orderId, restaurantId },
+          //     payload: { orderId, restaurantId },  
           //   },
           //   {
           //     headers: {
