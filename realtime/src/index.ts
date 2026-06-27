@@ -6,8 +6,13 @@ import { initSocket } from "./socket.js";
 import internalRoute from "./routes/internal.js";
 import { metricsMiddleware } from "./middleware/metricmid.js";
 import { register } from "./config/metric.js";
+import { connectRabbitMQ } from "./config/rabbitmq.js";
+import { startRealtimeConsumer } from "./config/realtimeconsumer.js";
 
 dotenv.config();
+
+await connectRabbitMQ();
+startRealtimeConsumer();
 
 const app = express();
 

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { getChannel } from "./rabbitmq.js";
 import { Rider } from "../model/Rider.js";
+import { publishRealtimeEvent } from "./realtime-producer.js";
 
 // when our order service sends and event of order accepted . it will 
 export const startOrderReadyConsumer = async () => {
@@ -51,19 +52,26 @@ export const startOrderReadyConsumer = async () => {
         console.log(`Notifying rider userId: ${rider.userId}`);
 
         try {
-          await axios.post(
-            `${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,
-            {
-              event: "order:available",
-              room: `user:${rider.userId}`,
-              payload: { orderId, restaurantId },
-            },
-            {
-              headers: {
-                "x-internal-key": process.env.INTERNAL_SERVICE_KEY,
-              },
-            }
-          );
+          // await axios.post(
+          //   `${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,
+          //   {
+          //     event: "order:available",
+          //     room: `user:${rider.userId}`,
+          //     payload: { orderId, restaurantId },
+          //   },
+          //   {
+          //     headers: {
+          //       "x-internal-key": process.env.INTERNAL_SERVICE_KEY,
+          //     },
+          //   }
+          // );
+          
+          await publishRealtimeEvent("EMIT_SOCKET_EVENT",{
+            event: "order:available",
+            room: `user:${rider.userId}`,
+            payload: {orderId,restaurantId}
+          })
+
           console.log(`Notified rider ${rider.userId} successfully`);
         } catch (error) {
           console.log(`Failed to notify rider ${rider.userId}`);

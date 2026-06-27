@@ -8,7 +8,7 @@ import { IMenuItem } from "../models/MenuItems.js";
 import Order from "../models/Order.js";
 import Restaurant, { IRestaurant } from "../models/Restaurant.js";
 import { publishEvent } from "../config/order.publisher.js";
-import { publishRealtimeEvent } from "./../config/realtime-publisher.js";
+import { publishRealtimeEvent } from "../config/realtime-producer.js";
 
 export const createOrder = TryCatch(async (req: AuthenticatedRequest, res) => {
   const user = req.user;
@@ -279,22 +279,31 @@ export const updateOrderStatus = TryCatch(
 
     await order.save();
 
-    await axios.post(
-      `${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,
-      {
-        event: "order:update",
-        room: `user:${order.userId}`,
-        payload: {
-          orderId: order._id,
-          status: order.status,
-        },
+    // await axios.post(
+    //   `${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,
+    //   {
+    //     event: "order:update",
+    //     room: `user:${order.userId}`,
+    //     payload: {
+    //       orderId: order._id,
+    //       status: order.status,
+    //     },
+    //   },
+    //   {
+    //     headers: {
+    //       "x-internal-key": process.env.INTERNAL_SERVICE_KEY,
+    //     },
+    //   }
+    // );
+
+    await publishRealtimeEvent("EMI_SOCKET_EVENT",{
+      event:"order:update",
+      room: `user:${order.userId}`,
+      payload: {
+        orderId: order._id,
+        status: order.status,
       },
-      {
-        headers: {
-          "x-internal-key": process.env.INTERNAL_SERVICE_KEY,
-        },
-      }
-    );
+    })
 
     console.log("Publishing realtime service order:update");
     await publishRealtimeEvent("EMIT_SOCKET_EVENT", {
@@ -410,44 +419,44 @@ export const assignRiderToOrder = TryCatch(async (req, res) => {
     { new: true },
   );
 
-  await axios.post(
-    `${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,
-    {
-      event: "order:rider_assigned",
-      room: `user:${order.userId}`,
-      payload: order,
-    },
-    {
-      headers: {
-        "x-internal-key": process.env.INTERNAL_SERVICE_KEY,
-      },
-    }
-  );
-  await axios.post(
-    `${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,
-    {
-      event: "order:rider_assigned",
-      room: `restaurant:${order.restaurantId}`,
-      payload: order,
-    },
-    {
-      headers: {
-        "x-internal-key": process.env.INTERNAL_SERVICE_KEY,
-      },
-    }
-  );
+  // await axios.post(
+  //   `${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,
+  //   {
+  //     event: "order:rider_assigned",
+  //     room: `user:${order.userId}`,
+  //     payload: order,
+  //   },
+  //   {
+  //     headers: {
+  //       "x-internal-key": process.env.INTERNAL_SERVICE_KEY,
+  //     },
+  //   }
+  // );
+  // await axios.post(
+  //   `${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,
+  //   {
+  //     event: "order:rider_assigned",
+  //     room: `restaurant:${order.restaurantId}`,
+  //     payload: order,
+  //   },
+  //   {
+  //     headers: {
+  //       "x-internal-key": process.env.INTERNAL_SERVICE_KEY,
+  //     },
+  //   }
+  // );
 
-  // await publishRealtimeEvent("EMIT_SOCKET_EVENT", {
-  //   event: "order:rider_assigned",
-  //   room: `user:${order.userId}`,
-  //   payload: orderUpdated,
-  // });
+  await publishRealtimeEvent("EMIT_SOCKET_EVENT", {
+    event: "order:rider_assigned",
+    room: `user:${order.userId}`,
+    payload: orderUpdated,
+  });
 
-  // await publishRealtimeEvent("EMIT_SOCKET_EVENT", {
-  //   event: "order:rider_assigned",
-  //   room: `restaurant:${order.restaurantId}`,
-  //   payload: orderUpdated,
-  // });
+  await publishRealtimeEvent("EMIT_SOCKET_EVENT", {
+    event: "order:rider_assigned",
+    room: `restaurant:${order.restaurantId}`,
+    payload: orderUpdated,
+  });
 
   res.json({
     message: "Rider Assigned Successfully",
@@ -513,45 +522,45 @@ export const updateOrderStatusRider = TryCatch(async (req, res) => {
 
     await order.save();
 
-    await axios.post(
-      `${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,
-      {
-        event: "order:rider_assigned",
-        room: `restaurant:${order.restaurantId}`,
-        payload: order,
-      },
-      {
-        headers: {
-          "x-internal-key": process.env.INTERNAL_SERVICE_KEY,
-        },
-      }
-    );
-    // console.log("published event order:picked")
-    // await publishRealtimeEvent("EMIT_SOCKET_EVENT", {
-    //   event: "order:picked_up",
-    //   room: `user:${order.userId}`,
-    //   payload: order,
-    // });
+    // await axios.post(
+    //   `${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,
+    //   {
+    //     event: "order:rider_assigned",
+    //     room: `restaurant:${order.restaurantId}`,
+    //     payload: order,
+    //   },
+    //   {
+    //     headers: {
+    //       "x-internal-key": process.env.INTERNAL_SERVICE_KEY,
+    //     },
+    //   }
+    // );
+    console.log("published event order:picked")
+    await publishRealtimeEvent("EMIT_SOCKET_EVENT", {
+      event: "order:picked_up",
+      room: `restaurant:${order.restaurantId}`,
+      payload: order,
+    });
 
-    await axios.post(
-      `${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,
-      {
-        event: "order:rider_assigned",
-        room: `user:${order.userId}`,
-        payload: order,
-      },
-      {
-        headers: {
-          "x-internal-key": process.env.INTERNAL_SERVICE_KEY,
-        },
-      }
-    );
+    // await axios.post(
+    //   `${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,
+    //   {
+    //     event: "order:rider_assigned",
+    //     room: `user:${order.userId}`,
+    //     payload: order,
+    //   },
+    //   {
+    //     headers: {
+    //       "x-internal-key": process.env.INTERNAL_SERVICE_KEY,
+    //     },
+    //   }
+    // );
 
-    // await publishRealtimeEvent("EMIT_SOCKET_EVENT", {
-    //   event: "order:picked_up",
-    //   room: `restaurant:${order.restaurantId}`,
-    //   payload: order,
-    // });
+    await publishRealtimeEvent("EMIT_SOCKET_EVENT", {
+      event: "order:picked_up",
+      room: `user:${order.userId}`,
+      payload: order,
+    });
 
     return res.json({
       message: "Order updated Successfully",
@@ -563,45 +572,45 @@ export const updateOrderStatusRider = TryCatch(async (req, res) => {
 
     await order.save();
 
-    await axios.post(
-      `${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,
-      {
-        event: "order:rider_assigned",
-        room: `restaurant:${order.restaurantId}`,
-        payload: order,
-      },
-      {
-        headers: {
-          "x-internal-key": process.env.INTERNAL_SERVICE_KEY,
-        },
-      },
-    );
+    // await axios.post(
+    //   `${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,
+    //   {
+    //     event: "order:rider_assigned",
+    //     room: `restaurant:${order.restaurantId}`,
+    //     payload: order,
+    //   },
+    //   {
+    //     headers: {
+    //       "x-internal-key": process.env.INTERNAL_SERVICE_KEY,
+    //     },
+    //   },
+    // );
 
-    await axios.post(
-      `${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,
-      {
-        event: "order:rider_assigned",
-        room: `user:${order.userId}`,
-        payload: order,
-      },
-      {
-        headers: {
-          "x-internal-key": process.env.INTERNAL_SERVICE_KEY,
-        },
-      },
-    );
-    // console.log("socket realtime published , order:delivered")
-    // await publishRealtimeEvent("EMIT_SOCKET_EVENT", {
-    //   event: "order:delivered",
-    //   room: `user:${order.userId}`,
-    //   payload: order,
-    // });
+    // await axios.post(
+    //   `${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,
+    //   {
+    //     event: "order:rider_assigned",
+    //     room: `user:${order.userId}`,
+    //     payload: order,
+    //   },
+    //   {
+    //     headers: {
+    //       "x-internal-key": process.env.INTERNAL_SERVICE_KEY,
+    //     },
+    //   },
+    // );
+    console.log("socket realtime published , order:delivered")
+    await publishRealtimeEvent("EMIT_SOCKET_EVENT", {
+      event: "order:delivered",
+      room: `user:${order.userId}`,
+      payload: order,
+    });
 
-    // await publishRealtimeEvent("EMIT_SOCKET_EVENT", {
-    //   event: "order:delivered",
-    //   room: `restaurant:${order.restaurantId}`,
-    //   payload: order,
-    // });
+    await publishRealtimeEvent("EMIT_SOCKET_EVENT", {
+      event: "order:delivered",
+      room: `restaurant:${order.restaurantId}`,
+      payload: order,
+    });
 
     return res.json({
       message: "Order updated Successfully",

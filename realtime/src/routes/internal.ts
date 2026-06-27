@@ -3,6 +3,7 @@ import { getIO } from "../socket.js";
 
 const router = express.Router();
 
+// this request will only come from client for map knowledge
 router.post("/emit", (req, res) => {
   if (req.headers["x-internal-key"] !== process.env.INTERNAL_SERVICE_KEY) {
     return res.status(403).json({
