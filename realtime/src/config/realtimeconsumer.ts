@@ -15,12 +15,14 @@ export const startRealtimeConsumer = async ()=>{
 
             if(msgcontent.type != "EMIT_SOCKET_EVENT"){
                 channel.ack(msg);
+                return;
             }
 
             const {event,room,payload} = msgcontent.data;
             if(!event || !room){
                 // ack the message 
                 channel.ack(msg);
+                return;
             }
 
             const io = getIO();
@@ -33,6 +35,7 @@ export const startRealtimeConsumer = async ()=>{
 
         }catch (error){
             console.error("Realtime Consume error", error);
+            channel.ack(msg)
         }
     })
 }
